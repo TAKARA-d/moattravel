@@ -1,14 +1,15 @@
-# ベースイメージとしてJava 17を使用
+# Java 17ベースイメージ
 FROM openjdk:17-jdk-slim
 
-# 作業ディレクトリを作成
+# 作業ディレクトリを設定
 WORKDIR /app
 
-# MavenでビルドされたJARファイルをコンテナにコピー
-COPY target/*.jar app.jar
+# Maven Wrapperを含むプロジェクト全体をコピー
+COPY . .
 
-# コンテナが使用するポートを指定
+# MavenビルドでJARファイルを生成
+RUN ./mvnw clean package -DskipTests
+
+# 生成されたJARファイルを実行
 EXPOSE 8080
-
-# アプリケーションを起動
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "target/moattravel-0.0.1-SNAPSHOT.jar"]
