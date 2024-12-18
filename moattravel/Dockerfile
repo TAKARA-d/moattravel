@@ -1,11 +1,18 @@
 # Java 17ベースイメージ
 FROM openjdk:17-jdk-slim
 
-# 作業ディレクトリを設定
+# 作業ディレクトリを作成
 WORKDIR /app
 
-# Maven Wrapperを含むプロジェクト全体をコピー
-COPY . .
+# Maven Wrapper関連ファイルとソースコードをコピー
+COPY mvnw mvnw
+COPY mvnw.cmd mvnw.cmd
+COPY .mvn/ .mvn/
+COPY pom.xml pom.xml
+COPY src/ src/
+
+# Maven Wrapperに実行権限を付与
+RUN chmod +x mvnw
 
 # MavenビルドでJARファイルを生成
 RUN ./mvnw clean package -DskipTests
