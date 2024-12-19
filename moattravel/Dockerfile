@@ -1,22 +1,12 @@
-# Java 17ベースイメージ
+# 基本的なSpring Bootアプリ用のDockerfile
 FROM openjdk:17-jdk-slim
 
-# 作業ディレクトリを作成
 WORKDIR /app
 
-# Maven Wrapper関連ファイルとソースコードをコピー
-COPY mvnw mvnw
-COPY mvnw.cmd mvnw.cmd
-COPY .mvn/ .mvn/
-COPY pom.xml pom.xml
-COPY src/ src/
+COPY target/moattravel-0.0.1-SNAPSHOT.jar app.jar
 
-# Maven Wrapperに実行権限を付与
-RUN chmod +x mvnw
-
-# MavenビルドでJARファイルを生成
-RUN ./mvnw clean package -DskipTests
-
-# 生成されたJARファイルを実行
+# 必要に応じて、環境変数や依存パッケージを追加
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "target/moattravel-0.0.1-SNAPSHOT.jar"]
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
