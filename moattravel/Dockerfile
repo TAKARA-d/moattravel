@@ -1,5 +1,5 @@
 # 基本的なSpring Bootアプリ用のDockerfile
-FROM openjdk:17-jdk-slim
+FROM openjdk:17
 
 WORKDIR /app
 
